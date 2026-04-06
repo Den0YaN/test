@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная - Автобаттл</title>
+    <style>
+        body {
+            background: #0d0a07;
+            color: #e8dcc0;
+            font-family: Tahoma;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: #1a1612;
+            border: 1px solid #c7ba00;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        button {
+            background: #2a2420;
+            border: 1px solid #c7ba00;
+            padding: 10px 20px;
+            color: #c7ba00;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #c7ba00;
+            color: #0d0a07;
+        }
+        .admin-panel {
+            background: #2a2420;
+            border: 1px solid #ff4444;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚔️ Добро пожаловать, <span id="userName"></span> ⚔️</h1>
+    <div id="adminPanel" style="display:none;" class="admin-panel">
+        <h3>👑 АДМИН-ПАНЕЛЬ</h3>
+        <p>Здесь будет управление контентом</p>
+        <button onclick="alert('Тут будет админка')">Управление</button>
+    </div>
+    <button onclick="logout()">🚪 Выйти</button>
+</div>
+<script src="js/common.js"></script>
+<script>
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if(!user) {
+        window.location.href = 'auth.html';
+    }
+    document.getElementById('userName').innerText = user.name || user.login;
+    if(user.role === 'admin') {
+        document.getElementById('adminPanel').style.display = 'block';
+    }
+    function logout() {
+        localStorage.removeItem('user');
+        window.location.href = 'auth.html';
+    }
+</script>
+</body>
+</html>

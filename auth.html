@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход - Автобаттл</title>
+    <style>
+        body {
+            background: #0d0a07;
+            color: #e8dcc0;
+            font-family: Tahoma;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .auth-box {
+            background: #1a1612;
+            border: 1px solid #c7ba00;
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #0d0a07;
+            border: 1px solid #c7ba00;
+            color: #e8dcc0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2a2420;
+            border: 1px solid #c7ba00;
+            color: #c7ba00;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #c7ba00;
+            color: #0d0a07;
+        }
+        .error {
+            background: rgba(255,68,68,0.2);
+            border: 1px solid #ff4444;
+            padding: 10px;
+            margin-top: 10px;
+            color: #ff8888;
+            display: none;
+        }
+        .links {
+            margin-top: 15px;
+        }
+        .links a {
+            color: #c7ba00;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="auth-box">
+    <h2>🔐 ВХОД</h2>
+    <input type="text" id="login" placeholder="Логин">
+    <input type="password" id="password" placeholder="Пароль">
+    <button id="loginBtn">Войти</button>
+    <div id="errorMsg" class="error"></div>
+    <div class="links">
+        <a href="register.html">Нет аккаунта? Зарегистрироваться</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script>
+    document.getElementById('loginBtn').onclick = async () => {
+        const login = document.getElementById('login').value.trim();
+        const password = document.getElementById('password').value;
+        const errorMsg = document.getElementById('errorMsg');
+        
+        if(!login || !password) {
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = '❌ Заполните все поля';
+            return;
+        }
+        
+        const user = await loginUser(login, password);
+        if(user) {
+            localStorage.setItem('user', JSON.stringify({ login: user.login, role: user.role, name: user.name }));
+            window.location.href = 'index.html';
+        } else {
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = '❌ Неверный логин или пароль';
+        }
+    };
+</script>
+</body>
+</html>
